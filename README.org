@@ -1,0 +1,200 @@
+#+title: Arch Linux Installation
+#+description: Guide for an Arch Linux install
+#+author: Carlos Reyes
+
+* TABLE OF CONTENTS :toc:
+- [[#pre-installation][Pre-installation]]
+- [[#installation][Installation]]
+  - [[#disk-formatting][Disk formatting]]
+  - [[#mount-and-pacstrap][Mount and Pacstrap]]
+  - [[#generating-fstab][Generating Fstab]]
+  - [[#localtime-locale-and-extra-config][Localtime, locale and extra config]]
+- [[#grub-installation][Grub Installation]]
+- [[#qtile-installation][Qtile Installation]]
+- [[#post-install][Post install]]
+- [[#exit-and-reboot][Exit and Reboot]]
+
+* Pre-installation
+Image to USB:
+#+begin_src bash
+sudo dd if=archlinux-version-x86_64.iso of=/dev/sdb bs=4M
+#+end_src
+* Installation
+You need to make sure you have working Internet, if you are using WiFi then you need to connect your device using iwctl.
+#+begin_src bash
+# IWCTL COMMANDS
+iwctl
+device list
+station <device> scan
+station <device> get-networks
+station <device> connect "WIFI"
+#+end_src
+If you are connected through a Proxy Server you need to do the following:
+#+begin_src bash
+export http_proxy=http://user:pass@proxy.direction.com:port
+export https_proxy=$http_proxy
+#+end_src
+Once you check you have working Internet you can move forward
+#+begin_src bash
+timedatectl set-ntp true
+timedatectl status
+#+end_src
+Be careful at this step:
+#+begin_src bash
+#Formatting Disks
+cfdisk
+#+end_src
+My personal Disk partition:
+
+| Disk | Type             | Capacity |
+|------+------------------+----------|
+| sda1 | EFI              | 550M     |
+| sda2 | Swap             | 4G       |
+| sda3 | Linux Filesystem | All      |
+
+** Disk formatting
+#+begin_src bash
+#EFI
+mkfs.fat -F32 /dev/sda1
+
+#SWAP
+mkswap /dev/sda2
+swapon /dev/sda2
+
+#EXT4
+mkfs.ext4 /dev/sda3
+#+end_src
+** Mount and Pacstrap
+#+begin_src bash
+mount /dev/sda3 /mnt
+
+#Installing base packages
+pacstrap /mnt base linux linux-firmware base-devel
+#+end_src
+** Generating Fstab
+We need to generate our filesystem table
+#+begin_src bash
+genfstab -U /mnt >> /mnt/etc/fstab
+#+end_src
+Then chroot into the fresh install
+#+begin_src bash
+arch-chroot /mnt
+#+end_src
+** Localtime, locale and extra config
+I use NeoVim:
+#+begin_src bash
+pacman -S neovim
+#+end_src
+Add your own localtime
+#+begin_src bash
+ln -sf /usr/share/zoneinfo/America/Havana /etc/localtime
+#+end_src
+#+begin_src bash
+hwclock --systohc
+#+end_src
+Look for the line #en_US.UTF-8 and uncomment
+#+begin_src bash
+nvim /etc/locale.gen
+#+end_src
+#+begin_src bash
+#Generate locale
+locale-gen
+#+end_src
+Just type your hostname, in my case it's 'arch'
+#+begin_src bash
+nvim /etc/hostname
+#+end_src
+#+begin_src bash
+nvim /etc/hosts
+#+end_src
+Add the next lines to the file, change 'arch' for your username
+#+begin_src bash
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   arch.localdomain    arch
+#+end_src
+Type your SUDO password
+#+begin_src bash
+passwd
+#+end_src
+Create a new user, in my case it's gonna be named 'kr7x'
+#+begin_src bash
+useradd -m kr7x
+passwd kr
+usermod -aG wheel,audio,video,optical,storage kr
+#+end_src
+Make sure 'sudo' is installed
+#+begin_src bash
+pacman -S sudo
+#+end_src
+Look for the line %wheel ALL=(ALL) ALL and uncomment, also for the proxy settings persistance add this:
+Defaults env_keep += "*_proxy *_PROXY"
+#+begin_src bash
+EDITOR=nvim visudo
+#+end_src
+* Grub Installation
+This is not a Dual Boot Window's configuration, you will need OS_PROBER to do that
+#+begin_src bash
+pacman -S grub efibootmgr
+mkdir /boot/EFI
+mount /dev/sda1 /boot/EFI
+grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+#+end_src
+* BSPWM Installation
+We install our Xorg server and BSPWM, sxhkd and a few useful tools.
+#+begin_src bash
+pacman -S xorg xorg-xinit git alacritty flameshot mpv emacs bspwm sxhkd feh picom ranger arandr ark bluez bluez-utils brightnessctl rofi dunst htop ntfs-3g obsidian openssh openssl playerctl pulseaudio pulseaudio-alsa pulseaudio-bluetooth stunnel telegram-desktop thunar unzip zsh yt-dlp 
+#+end_src
+* Post install
+Make sure NetworkManager and bluetooth are enabled
+#+begin_src bash
+systemctl enable NetworkManager
+systemctl enable bluetooth
+#+end_src
+* Exit and Reboot
+#+begin_src bash
+exit
+umount -R /mnt
+reboot
+#+end_src
+* Post-Installation
+Make sure all the executables have ~chmod +x~.
+** Mousepad
+Create the following file ~/etc/X11/xorg.conf.d/30-touchpad.conf~:
+#+begin_src  bash
+  Section "InputClass"
+      Identifier "touchpad"
+      Driver "libinput"
+      MatchIsTouchpad "on"
+      Option "Tapping" "on"
+  EndSection
+#+end_src
+** Fonts
+To install the fonts needed for this config:
+#+begin_src bash
+  sudo pacman -S ttf-roboto ttf-firacode-nerd
+
+  paru -S nerd-fonts-jetbrains-mono
+#+end_src
+** GTK Theme
+Install the Breeze theme and tela icons
+#+begin_src bash
+  sudo pacman -S breeze-gtk
+  paru -S tela-icon-theme
+#+end_src
+** QT Theme
+Install breeze with ~sudo pacman -S breeze~
+Then install qt5ct ~sudo pacman -S qt5ct~
+And modify the file ~/etc/environment~ as sudo an add the following line:
+~QT_QPA_PLATFORMTHEME=qt5ct~
+** Cursor
+Needs breeze cursor
+#+begin_src bash
+  paru -S xcursor-breeze
+#+end_src
+Then modify the following file ~/usr/share/icons/default/index.theme
+#+begin_src bash
+  [icon theme]
+  Inherits=breeze_cursor
+#+end_src
