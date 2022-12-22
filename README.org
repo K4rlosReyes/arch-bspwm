@@ -144,7 +144,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 * BSPWM Installation
 We install our Xorg server and BSPWM, sxhkd and a few useful tools.
 #+begin_src bash
-pacman -S xorg xorg-xinit git alacritty flameshot mpv emacs bspwm sxhkd feh picom ranger arandr ark bluez bluez-utils brightnessctl rofi dunst htop ntfs-3g obsidian openssh openssl playerctl pulseaudio pulseaudio-alsa pulseaudio-bluetooth stunnel telegram-desktop thunar unzip zsh yt-dlp 
+pacman -S xorg xf86-video-intel mesa xorg-xinit git alacritty flameshot mpv emacs bspwm sxhkd feh picom ranger arandr ark bluez bluez-utils brightnessctl rofi dunst htop ntfs-3g obsidian openssh openssl playerctl pulseaudio pulseaudio-alsa pulseaudio-bluetooth stunnel telegram-desktop thunar unzip zsh yt-dlp 
 #+end_src
 * Post install
 Make sure NetworkManager and bluetooth are enabled
