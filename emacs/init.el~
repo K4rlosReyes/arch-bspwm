@@ -1,4 +1,3 @@
-;;; int.el --- defaults for Emac's aesthetics -*- lexical-binding: t; -*-
 ;;;EMACS CONFIG
 
 ;; UI
@@ -11,54 +10,15 @@
 
 (set-face-attribute 'default nil :font "JetBrainsMonoNL Nerd Font")
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-;; Explicitly define a width to reduce the cost of on-the-fly computation
-(setq-default display-line-numbers-width 3)
 
-;; Show absolute line numbers for narrowed regions to make it easier to tell the
-;; buffer is narrowed, and where you are, exactly.
-(setq-default display-line-numbers-widen t)
+(column-number-mode)
+(global-display-line-numbers-mode t)
 
-;; Enable line numbers in most text-editing modes. We avoid
-;; `global-display-line-numbers-mode' because there are many special and
-;; temporary modes where we don't need/want them.
-
-(dolist (mode '(prog-mode-hook
-		text-mode-hook
-		conf-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode t))))
-
-(setq hscroll-margin 2
-      hscroll-step 1
-      ;; Emacs spends too much effort recentering the screen if you scroll the
-      ;; cursor more than N lines past window edges (where N is the settings of
-      ;; `scroll-conservatively'). This is especially slow in larger files
-      ;; during large-scale scrolling commands. If kept over 100, the window is
-      ;; never automatically recentered.
-      scroll-conservatively 101
-      scroll-margin 0
-      scroll-preserve-screen-position t
-      ;; Reduce cursor lag by a tiny bit by not auto-adjusting `window-vscroll'
-      ;; for tall lines.
-      auto-window-vscroll nil
-      ;; mouse
-      mouse-wheel-scroll-amount '(2 ((shift) . hscroll))
-      mouse-wheel-scroll-amount-horizontal 2)
-
-(blink-cursor-mode -1)
-
-;; Don't blink the paren matching the one at point, it's too distracting.
-(setq blink-matching-paren nil)
-
-;; Don't stretch the cursor to fit wide characters, it is disorienting,
-;; especially for tabs.
-(setq x-stretch-cursor nil)
-
-(setq indicate-buffer-boundaries nil
-      indicate-empty-lines nil)
-
-(setq frame-resize-pixelwise t)
-(setq window-resize-pixelwise nil)
-(setq use-dialog-box nil)
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 ;; PACKAGES
 (require 'package)
