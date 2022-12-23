@@ -1,0 +1,1 @@
+("~/Work/thingsboard-comm/" "~/Work/temperature-forecast/" "~/Work/see-the-tomorrow/" "~/Work/reactflask/" "~/Work/react_forecasting/" "~/Work/humidity-forecast/" "~/Work/flask-server/" "~/Work/doomemacs/" "~/Work/carbon-forecast/" "~/Work/arch-plasma/" "~/Work/arch-config/" "~/Work/arch-bspwm/")
