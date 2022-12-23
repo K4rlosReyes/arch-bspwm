@@ -122,9 +122,9 @@ Type your SUDO password
 #+begin_src bash
 passwd
 #+end_src
-Create a new user, in my case it's gonna be named 'kr7x'
+Create a new user, in my case it's gonna be named 'kr'
 #+begin_src bash
-useradd -m kr7x
+useradd -m kr
 passwd kr
 usermod -aG wheel,audio,video,optical,storage kr
 #+end_src
