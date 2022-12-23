@@ -1,4 +1,1 @@
-#!/bin/sh
-redshift &
-xautolock -detectsleep -time 5 -locker lock.sh -notify 30 -notifier "notify-send -u critical -t 10000 -- 'Locking Screen in 30 seconds'" &
 

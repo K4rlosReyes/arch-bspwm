@@ -1,4 +1,4 @@
-;;; int.el --- defaults for Emac's aesthetics -*- lexical-binding: t; -*-
+; int.el --- defaults for Emac's aesthetics -*- lexical-binding: t; -*-
 ;;;EMACS CONFIG
 
 ;; UI
@@ -214,6 +214,3 @@
   :commands (magit-status magit-get-current-branch)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
-
-(use-package evil-magit
-  :after magit)
