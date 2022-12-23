@@ -178,9 +178,9 @@ Create the following file ~/etc/X11/xorg.conf.d/30-touchpad.conf~:
 ** Paru
 Run this:
 #+begins_src bash
-$ git clone https://aur.archlinux.org/paru.git
-$ cd paru
-$ makepkg -si
+git clone https://aur.archlinux.org/paru.git
+cd paru
+makepkg -si
 #+end_src
 ** Fonts
 To install the fonts needed for this config:
