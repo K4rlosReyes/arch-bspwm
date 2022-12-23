@@ -11,11 +11,19 @@ super + shift + Return
         alacritty -e "tmux"
 
 # Firefox
-super + f
-        firefox
+super + b
+        brave
+
+# Emacs
+super + q
+        emacsclient -c -a 'emacs'
+
+# Thunar
+super + e
+        thunar
 
 # Rofi
-alt + @space
+super + @space
         rofi -show drun -show-icons
 
 # Screenshot
@@ -115,13 +123,13 @@ XF86AudioMute
 #Brightness control
 # TODO CHANGE FOR BRIGHTNESSCTL
 XF86MonBrightnessDown
-	brightness -dec 5
+	brightnessctl set 5%-
 XF86MonBrightnessUp
-	brightness -inc 5
+	brightnessctl set +5%
 
 ## Lock screen
 super + shift + l
-	~/.local/bin/lock
+	~/.config/bspwm/scripts/lock
 
 ## Music Controls
 super  + {less, greater, question}
