@@ -3,6 +3,7 @@
 #+author: Carlos Reyes
 
 * TABLE OF CONTENTS :toc:
+- [[#result][Result]]
 - [[#pre-installation][Pre-installation]]
 - [[#installation][Installation]]
   - [[#disk-formatting][Disk formatting]]
@@ -10,9 +11,9 @@
   - [[#generating-fstab][Generating Fstab]]
   - [[#localtime-locale-and-extra-config][Localtime, locale and extra config]]
 - [[#grub-installation][Grub Installation]]
-- [[#qtile-installation][Qtile Installation]]
-- [[#post-install][Post install]]
+- [[#bspwm-installation][BSPWM Installation]]
 - [[#exit-and-reboot][Exit and Reboot]]
+- [[#post-installation][Post-Installation]]
 
 * Result
 [[file:https://github.com/K4rlosReyes/arch-bspwm/blob/main/wallpaper/screenshot1.png]]
@@ -150,7 +151,6 @@ We install our Xorg server and BSPWM, sxhkd and a few useful tools.
 #+begin_src bash
 pacman -S xorg xf86-video-intel mesa xdg-user-dirs xorg-xinit git alacritty flameshot mpv emacs bspwm sxhkd feh picom ranger arandr ark bluez bluez-utils brightnessctl rofi dunst htop ntfs-3g obsidian openssh openssl playerctl pulseaudio pulseaudio-alsa pulseaudio-bluetooth stunnel telegram-desktop thunar unzip zsh yt-dlp thunar-volman thunar-archive-plugin ripgrep fd npm noto-fonts-emoji 
 #+end_src
-* Post install
 Make sure NetworkManager and bluetooth are enabled, if the user-dirs are not created then run ~xdg-users-dirs-update~.
 #+begin_src bash
   systemctl enable NetworkManager
