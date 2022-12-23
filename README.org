@@ -14,6 +14,9 @@
 - [[#post-install][Post install]]
 - [[#exit-and-reboot][Exit and Reboot]]
 
+* Result
+[[file:.wallpaper/screenshot1.png]]
+[[file:.wallpaper/screenshot2.png]]
 * Pre-installation
 Image to USB:
 #+begin_src bash
