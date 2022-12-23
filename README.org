@@ -144,7 +144,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 * BSPWM Installation
 We install our Xorg server and BSPWM, sxhkd and a few useful tools.
 #+begin_src bash
-pacman -S xorg xf86-video-intel mesa xdg-user-dirs xorg-xinit git alacritty flameshot mpv emacs bspwm sxhkd feh picom ranger arandr ark bluez bluez-utils brightnessctl rofi dunst htop ntfs-3g obsidian openssh openssl playerctl pulseaudio pulseaudio-alsa pulseaudio-bluetooth stunnel telegram-desktop thunar unzip zsh yt-dlp 
+pacman -S xorg xf86-video-intel mesa xdg-user-dirs xorg-xinit git alacritty flameshot mpv emacs bspwm sxhkd feh picom ranger arandr ark bluez bluez-utils brightnessctl rofi dunst htop ntfs-3g obsidian openssh openssl playerctl pulseaudio pulseaudio-alsa pulseaudio-bluetooth stunnel telegram-desktop thunar unzip zsh yt-dlp thunar-volman thunar-archive-plugin ripgrep fd npm noto-fonts-emoji 
 #+end_src
 * Post install
 Make sure NetworkManager and bluetooth are enabled, if the user-dirs are not created then run ~xdg-users-dirs-update~.
@@ -168,6 +168,7 @@ Create the following file ~/etc/X11/xorg.conf.d/30-touchpad.conf~:
       Driver "libinput"
       MatchIsTouchpad "on"
       Option "Tapping" "on"
+      Option "NaturalScrolling" "true": natural (reverse) scrilling
   EndSection
 #+end_src
 ** Fonts
@@ -193,7 +194,7 @@ Needs breeze cursor
 #+begin_src bash
   paru -S xcursor-breeze
 #+end_src
-Then modify the following file ~/usr/share/icons/default/index.theme
+Then modify the following file ~/usr/share/icons/default/index.theme~
 #+begin_src bash
   [icon theme]
   Inherits=breeze_cursor
