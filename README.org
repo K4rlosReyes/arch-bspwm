@@ -177,7 +177,7 @@ Create the following file ~/etc/X11/xorg.conf.d/30-touchpad.conf~:
 #+end_src
 ** Paru
 Run this:
-#+begins_src bash
+#+begin_src bash
 git clone https://aur.archlinux.org/paru.git
 cd paru
 makepkg -si
