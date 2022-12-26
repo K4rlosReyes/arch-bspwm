@@ -10,13 +10,9 @@ super + Return
 super + shift + Return
         alacritty -e "tmux"
 
-# Firefox
+# Brave
 super + b
         brave
-
-# Emacs
-super + q
-        emacsclient -c -a 'emacs'
 
 # Thunar
 super + e
@@ -77,14 +73,6 @@ super + ctrl + {m,l,s,p}
 super + {t, shift + t,s,f}
         bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
-# Toggle between floating and tiling
-super + u
-	bspc node focused.tiled -t floating || bspc node focused.floating -t tiled
-
-# Toggle between pseudo-tiling and tiling
-super + i
-	bspc node focused.tiled -t pseudo_tiled || bspc node -t tiled
-
 # Mark node as hidden/unhide all
 super + {_, shift} + o
 	{bspc node --flag hidden=on, ~/.config/bspwm/scripts/unhide}
@@ -130,6 +118,6 @@ super + shift + p
 	~/.config/bspwm/scripts/lock
 
 ## Music Controls
-super  + {less, greater, question}
+super  + {XF86AudioPrev, XF86AudioNext, XF86AudioPause}
 	playerctl {previous, next, play-pause}
 XF86Display : xrandr --output HDMI1 --auto --primary --output eDP1 --auto --right-of HDMI1
