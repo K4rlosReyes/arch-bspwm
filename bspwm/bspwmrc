@@ -1,8 +1,6 @@
 #!/bin/bash
 #
 ###MONITORS###
-bspc monitor -d 1 2 3 4 5 6 7 8 9 
-
 external_monitor=$(xrandr --query | grep 'HDMI1')
 
 if [[ $external_monitor = HDMI1\ connected* ]]; then
@@ -19,7 +17,7 @@ _bc() {
 
 #### BSPWM configuration ####
 _bc window_gap 			  						8
-_bc top_padding 									2
+_bc top_padding 									26
 _bc top_monocle_padding 					0
 _bc border_width 								  2
 _bc bottom_padding                0
@@ -47,8 +45,6 @@ bspc config focused_border_color "#bbc2cf"
 bspc config normal_border_color "#282c34"
 
 # Rules
-bspc rule -a Emacs state=tiled
-bspc rule -a firefox -o desktop=2
 bspc rule -a mpv state=tiled
 bspc rule -a flameshot state='floating'
 bspc rule -a *:SPLASH state=floating
@@ -60,6 +56,8 @@ picom &
 dunst &
 setxkbmap -option ctrl:nocaps &
 xsetroot -cursor_name left_ptr &
+xset s off -dpms &
 
 # Autostart
 ~/.fehbg &
+polybar &
