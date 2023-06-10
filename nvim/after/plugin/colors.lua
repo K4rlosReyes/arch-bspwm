@@ -1,2 +1,0 @@
--- Lua
-require('onedark').load()

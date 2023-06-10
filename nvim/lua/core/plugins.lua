@@ -1,40 +1,53 @@
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.cmd [[packadd packer.nvim]]
-    return true
-  end
-  return false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git", "clone", "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git", "--branch=stable", -- latest stable release
+        lazypath
+    })
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
+local plugins = {
+    "nvim-tree/nvim-web-devicons", "nvim-treesitter/nvim-treesitter", {
+        "nvim-telescope/telescope.nvim",
+        tag = '0.1.1',
+        dependencies = {"nvim-lua/plenary.nvim"}
+    }, {
+        "hrsh7th/nvim-cmp",
+        dependencies = {
+            {
+                -- snippet plugin
+                "L3MON4D3/LuaSnip",
+                dependencies = "rafamadriz/friendly-snippets",
+                opts = {
+                    history = true,
+                    updateevents = "TextChanged,TextChangedI"
+                }
+            }, -- autopairing of (){}[] etc
+            {
+                "windwp/nvim-autopairs",
+                opts = {
+                    fast_wrap = {},
+                    disable_filetype = {"TelescopePrompt", "vim"}
+                }
+            }, -- cmp sources plugins
+            {
+                "saadparwaiz1/cmp_luasnip", "hrsh7th/cmp-nvim-lua",
+                "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path"
+            }
+        }
+    }, "neovim/nvim-lspconfig", "williamboman/mason.nvim", "rose-pine/neovim",
+    "folke/trouble.nvim", "jose-elias-alvarez/null-ls.nvim",
+    {'akinsho/toggleterm.nvim', version = "*", config = true},
+    "TimUntersberger/neogit", "numToStr/Comment.nvim",
+    "folke/todo-comments.nvim", "nvim-lualine/lualine.nvim", {
+        "nvim-telescope/telescope-file-browser.nvim",
+        dependencies = {
+            "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim"
+        }
+    }, "nvim-telescope/telescope-project.nvim"
+}
 
-return require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'
-  use 'olimorris/onedarkpro.nvim'
-  use 'nvim-tree/nvim-tree.lua'
-  use 'nvim-tree/nvim-web-devicons'
-  use 'nvim-lualine/lualine.nvim'
-  use 'nvim-treesitter/nvim-treesitter'
-  use {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "neovim/nvim-lspconfig",
-  }
-  use {
-    'nvim-telescope/telescope.nvim',
-    tag = '0.1.0',
-    requires = { {'nvim-lua/plenary.nvim'} }
-  }
-  -- My plugins here
-  -- use 'foo1/bar1.nvim'
-  -- use 'foo2/bar2.nvim'
-
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if packer_bootstrap then
-    require('packer').sync()
-  end
-end)
+local opts = {}
+require("lazy").setup(plugins, opts)

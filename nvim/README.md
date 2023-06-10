@@ -1,2 +1,0 @@
-#TODO
-* Update nvim config.
