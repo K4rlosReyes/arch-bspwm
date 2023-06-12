@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-###MONITORS###
+### MONITORS ###
 external_monitor=$(xrandr --query | grep 'HDMI1')
 
 if [[ $external_monitor = HDMI1\ connected* ]]; then
@@ -11,38 +11,45 @@ else
   bspc monitor eDP1 -d 1 2 3 4 5 6 7 8 9
 fi
 
+# BSPWM Configuration
 _bc() {
   bspc config "$@"
 }
 
-#### BSPWM configuration ####
-_bc window_gap                      8
-_bc top_padding                     26
-_bc top_monocle_padding             0
-_bc border_width                    2
-_bc bottom_padding                  0
-_bc left_padding                    0
-_bc right_padding                   0
-_bc single_monocle                  false
-_bc click_to_focus                  false
-_bc split_ratio                     0.50
-_bc borderless_monocle              true
-_bc gapless_monocle                 true
-_bc focus_by_distance               true
-_bc paddingless_monocle             true
-_bc focus_follows_pointer           true
-_bc ignore_ewmh_focus               true
-_bc history_aware_focus             true
-_bc remove_disabled_monitors        true
+# BSPWM Configuration
+_bc window_gap                       8
+_bc top_padding                      26
+_bc top_monocle_padding              0
+_bc border_width                     2
+_bc bottom_padding                   0
+_bc left_padding                     0
+_bc right_padding                    0
+_bc single_monocle                   false
+_bc click_to_focus                   false
+_bc split_ratio                      0.50
+_bc borderless_monocle               true
+_bc gapless_monocle                  true
+_bc focus_by_distance                true
+_bc paddingless_monocle              true
+_bc focus_follows_pointer            true
+_bc ignore_ewmh_focus                true
+_bc history_aware_focus              true
+_bc remove_disabled_monitors         true
 _bc pointer_modifier mod1
 _bc pointer_action1 move
 _bc pointer_action2 resize_side
 _bc pointer_action3 resize_corner
 
 # Colors
-bspc config active_border_color "#282c34"
-bspc config focused_border_color "#bbc2cf"
-bspc config normal_border_color "#282c34"
+rosepine_background="#2e3440"
+rosepine_foreground="#d8dee9"
+rosepine_accent="#88c0d0"
+rosepine_active="#bf616a"
+rosepine_focused="#8fbcbb"
+rosepine_normal="#4c566a"
+_bc normal_border_color "$rosepine_normal"
+_bc focused_border_color "$rosepine_focused"
+_bc active_border_color "$rosepine_active"
 
 # Rules
 bspc rule -a mpv state=tiled
@@ -51,13 +58,11 @@ bspc rule -a *:SPLASH state=floating
 bspc desktop -f 1
 
 # Init-Daemons
-sxhkd &
-picom &
-dunst &
+command -v sxhkd && sxhkd &
+command -v picom && picom &
+command -v dunst && dunst &
 setxkbmap -option ctrl:nocaps &
-xsetroot -cursor_name left_ptr &
-xset s off -dpms &
 
 # Autostart
-~/.fehbg &
-polybar &
+command -v feh && ~/.fehbg &
+command -v polybar && polybar &
